@@ -14,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.Scanner;
 
 /**
@@ -24,7 +25,7 @@ public class SlangDictionary {
     String filePath = "E:\\Nam4\\HK2\\LTUD - Java\\P1\\SlangWord\\slang.txt";
     public static HashMap<String, ArrayList<String>> dictionary = new HashMap<String, ArrayList<String>>();
     
-    public void GetMeaning()
+    public void GetData()
     {
         try {
             File f = new File(this.filePath);
@@ -36,7 +37,6 @@ public class SlangDictionary {
             
             while (line != null)
             {
-//                System.out.println(line);
                 if(line.contains("`"))
                 {
                     String [] str = line.split("`");
@@ -55,7 +55,7 @@ public class SlangDictionary {
         }
     }
     
-    public void FindSlangWords()
+    public void SearchBySlangWords()
     {
         System.out.print("What is the word you want to find? ");
         Scanner scanner = new Scanner(System.in);
@@ -63,25 +63,22 @@ public class SlangDictionary {
         s = s.toUpperCase();
         ArrayList<String> meaning = dictionary.get(s);
         for (int i = 0; i < meaning.size(); i++) {
-            System.out.print(meaning.get(i));
+            System.out.println(meaning.get(i));
         }
     }
     
-//    public void FindDefinition()
-//    {
-//        System.out.println("What definition u want to find: ");
-//        Scanner scanner = new Scanner(System.in);
-//        String check=scanner.nextLine();
-//        ArrayList<String> answer=new ArrayList();
-//        for (String i: hm.keySet())
-//        {
-//            if (hm.get(i).contains(check))
-//            {
-//                answer.add(i);
-//            }
-//
-//        }
-//        System.out.println(answer);
-//    }
+    public void SearchByDefinition()
+    {
+        System.out.print("What is the slang word you want to find? ");
+        Scanner scanner = new Scanner(System.in);
+        String def = scanner.nextLine();
+        for (Entry<String, ArrayList<String>> slword : dictionary.entrySet()) {
+            if (slword.getValue().contains(def)) {
+                System.out.println(slword.getKey());
+            }
+        }
+    }
     
+    
+        
 }

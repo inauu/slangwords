@@ -17,9 +17,9 @@ public class main {
     public static void main(String[] args) {
         // TODO code application logic here
         SlangDictionary sld = new SlangDictionary();
-        sld.GetMeaning();
-        sld.FindSlangWords();
-//        sld.FindDefinition();
+        sld.GetData();
+//        sld.SearchBySlangWords();
+        sld.SearchByDefinition();
     }
     
 }
