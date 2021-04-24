@@ -6,9 +6,11 @@
 package slangword;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -23,7 +25,26 @@ import java.util.Scanner;
  */
 public class SlangDictionary {
     String filePath = "E:\\Nam4\\HK2\\LTUD - Java\\P1\\SlangWord\\slang.txt";
+    String historyPath = "E:\\Nam4\\HK2\\LTUD - Java\\P1\\SlangWord\\history.txt";
     public static HashMap<String, ArrayList<String>> dictionary = new HashMap<String, ArrayList<String>>();
+    
+    public void WriteToHistory(String keyword)
+    {
+        try {
+            File f = new File(this.historyPath);
+            FileOutputStream fout = new FileOutputStream(f, true);
+            BufferedOutputStream bout = new BufferedOutputStream(fout);
+            
+            String newLine = System.getProperty("line.separator");
+            
+            bout.write((keyword + newLine).getBytes());
+            
+            bout.close();
+        } 
+        catch (Exception ex) {
+            System.err.println(ex.getMessage());
+        }
+    }
     
     public void GetData()
     {
@@ -31,7 +52,7 @@ public class SlangDictionary {
             File f = new File(this.filePath);
             FileInputStream fin = new FileInputStream(f);
             BufferedInputStream bin = new BufferedInputStream(fin);
-            
+ 
             BufferedReader br = new BufferedReader(new InputStreamReader(bin, StandardCharsets.UTF_8));
             String line = br.readLine();
             
@@ -57,9 +78,10 @@ public class SlangDictionary {
     
     public void SearchBySlangWords()
     {
-        System.out.print("What is the word you want to find? ");
+        System.out.print("Search definition: ");
         Scanner scanner = new Scanner(System.in);
         String s = scanner.nextLine();
+        WriteToHistory(s);
         s = s.toUpperCase();
         ArrayList<String> meaning = dictionary.get(s);
         for (int i = 0; i < meaning.size(); i++) {
@@ -67,9 +89,9 @@ public class SlangDictionary {
         }
     }
     
-    public void SearchByDefinition()
+    public void SearchByDefinitions()
     {
-        System.out.print("What is the slang word you want to find? ");
+        System.out.print("Search slang word: ");
         Scanner scanner = new Scanner(System.in);
         String def = scanner.nextLine();
         for (Entry<String, ArrayList<String>> slword : dictionary.entrySet()) {
@@ -79,6 +101,38 @@ public class SlangDictionary {
         }
     }
     
-    
+    public void AddNewSlangWord()
+    {
+        System.out.print("Enter new slang word: ");
+        Scanner scanner = new Scanner(System.in);
+        String newsl = scanner.nextLine();
+        newsl = newsl.toUpperCase();
+        System.out.print("Enter definition of new slang word: ");
+        String newdef = scanner.nextLine();
+        ArrayList<String> meaning = new ArrayList<String>();
+        meaning.add(newdef);
+        if (dictionary.containsKey(newsl)) {
+            System.out.println("Overwrite it: (Y/N) ");
+            String confirm = scanner.nextLine();
+            if (confirm.equals("y") ||  confirm.equals("Y"))
+            {
+                dictionary.put(newsl, meaning);
+            }
+            else
+            {
+                ArrayList<String> i = dictionary.get(newsl);
+                for(String j:i)
+                {
+                    meaning.add(j);
+                }
+                dictionary.put(newsl, meaning);
+            }
+        }
+        else
+        {
+            dictionary.put(newsl, meaning);
+            System.out.println("Success");
+        }
+    }
         
 }

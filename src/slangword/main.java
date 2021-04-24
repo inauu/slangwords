@@ -5,6 +5,8 @@
  */
 package slangword;
 
+import java.util.Scanner;
+
 /**
  *
  * @author inau
@@ -18,8 +20,9 @@ public class main {
         // TODO code application logic here
         SlangDictionary sld = new SlangDictionary();
         sld.GetData();
-//        sld.SearchBySlangWords();
-        sld.SearchByDefinition();
+        sld.SearchBySlangWords();
+//        sld.SearchByDefinitions();
+//        sld.AddNewSlangWord();
     }
     
 }
