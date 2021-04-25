@@ -28,6 +28,7 @@ public class SlangDictionary {
     String historyPath = "E:\\Nam4\\HK2\\LTUD - Java\\P1\\SlangWord\\history.txt";
     public static HashMap<String, ArrayList<String>> dictionary = new HashMap<String, ArrayList<String>>();
     
+//    func3
     public void WriteToHistory(String keyword)
     {
         try {
@@ -66,6 +67,7 @@ public class SlangDictionary {
                 }
                 line = br.readLine();
             }
+            System.out.println(dictionary.get("#1"));
             fin.close();
             bin.close();
             
@@ -76,6 +78,7 @@ public class SlangDictionary {
         }
     }
     
+//    func1
     public void SearchBySlangWords()
     {
         System.out.print("Search definition: ");
@@ -89,6 +92,7 @@ public class SlangDictionary {
         }
     }
     
+//    func2
     public void SearchByDefinitions()
     {
         System.out.print("Search slang word: ");
@@ -100,7 +104,7 @@ public class SlangDictionary {
             }
         }
     }
-    
+//    func4
     public void AddNewSlangWord()
     {
         System.out.print("Enter new slang word: ");
@@ -117,15 +121,18 @@ public class SlangDictionary {
             if (confirm.equals("y") ||  confirm.equals("Y"))
             {
                 dictionary.put(newsl, meaning);
+                System.out.println("Overwrite success");
             }
             else
             {
-                ArrayList<String> i = dictionary.get(newsl);
-                for(String j:i)
+                ArrayList<String> arr = dictionary.get(newsl);
+                for(String i:arr)
                 {
-                    meaning.add(j);
+                    meaning.add(i);
+                    System.out.println(i);
                 }
                 dictionary.put(newsl, meaning);
+                System.out.println("Dup success");
             }
         }
         else
@@ -134,5 +141,43 @@ public class SlangDictionary {
             System.out.println("Success");
         }
     }
+    
+//    func5
+    public void EditSlangWord()
+    {
+        System.out.println("Enter slangword you want to edit: ");
+        Scanner scanner = new Scanner(System.in);
+        String sledit = scanner.nextLine();
+        if (!dictionary.containsKey(sledit)) {
+            System.out.println("Not exist");
+        }
+        else
+        {
+            
+        }
+    }
+    
+//    func6
+    public void DeleteSlangWord()
+    {
+        System.out.println("Enter slang word you want to delete: ");
+        Scanner scanner = new Scanner(System.in);
+        String del = scanner.nextLine();
+        if (dictionary.containsKey(del)) {
+            System.out.println("Delete it? (Y/N) ");
+            String confirm = scanner.nextLine();
+            if (confirm.equals("y") ||  confirm.equals("Y"))
+            {
+                dictionary.remove(del);
+            }
+        }
+    }
+    
+//    func7
+    public void ResetOriginSlangWord()
+    {
+        
+    }
+    
         
 }
