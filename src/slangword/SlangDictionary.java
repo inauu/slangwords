@@ -16,6 +16,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Scanner;
@@ -144,21 +146,27 @@ public class SlangDictionary {
 //    func4
     public void AddNewSlangWord()
     {
-        System.out.print("Enter new slang word: ");
+        System.out.print("\nEnter the new slang word: ");
         Scanner scanner = new Scanner(System.in);
         String newsl = scanner.nextLine();
         newsl = newsl.toUpperCase();
-        System.out.print("Enter definition of new slang word: ");
-        String newdef = scanner.nextLine();
         ArrayList<String> meaning = new ArrayList<String>();
-        meaning.add(newdef);
+        System.out.print("How many definitions of it: ");
+        int amount = scanner.nextInt();
+        scanner.nextLine();
+        for (int i = 1; i <= amount; i++) 
+        {
+            System.out.print("Enter the definition " + i + ": ");
+            String newdef = scanner.nextLine();
+            meaning.add(newdef);
+        }
         if (dictionary.get(newsl) != null) {
-            System.out.println("Overwrite it: (Y/N) ");
+            System.out.println("\nOverwrite it: (Y/N) ");
             String confirm = scanner.nextLine();
             if (confirm.equals("y") ||  confirm.equals("Y"))
             {
                 dictionary.put(newsl, meaning);
-                System.out.println("Overwrite success");
+                System.out.println("\nOverwrite success");
             }
             else
             {
@@ -167,29 +175,63 @@ public class SlangDictionary {
                 {
                     meaning.add(i);
                 }
-                System.out.println("Dup success");
+                System.out.println("\nDup success");
             }
         }
         else
         {
             dictionary.put(newsl, meaning);
-            System.out.println("Success");
+            System.out.println("\nAdd Successfully");
         }
     }
     
 //    func5
     public void EditSlangWord()
     {
-        System.out.println("Enter slangword you want to edit: ");
+        System.out.print("\nEnter slangword you want to edit: ");
         Scanner scanner = new Scanner(System.in);
-        String sledit = scanner.nextLine();
-        if (dictionary.get(sledit) != null) {
+        String edit = scanner.nextLine();
+        if (dictionary.get(edit) == null) {
             System.out.println("Not exist");
         }
         else
         {
+            ArrayList<String> def = dictionary.get(edit);
+
+            int amount = 1;
+            for(String i:def)
+            {
+                System.out.println(amount + "." + i);
+                amount++;
+            }
             
-        }
+            System.out.println("What do u want: ");
+            System.out.println("1. Delete Definition ");
+            System.out.println("2. Add Definition ");
+            System.out.print("YOUR CHOICE: ");
+            int choice=scanner.nextInt();
+            String pass=scanner.nextLine();
+
+            if (choice==1)
+            {
+                if (def.size()==1) 
+                {
+                    System.out.println("You can't delete this ");
+                    return;
+                }
+                System.out.print("Number of item you want to remove:");
+                int number = scanner.nextInt();
+                def.remove(number - 1);
+                dictionary.put(edit,def);
+            }
+            else if (choice==3)
+            {
+                System.out.print("What is the new definition : ");
+                String temp=scanner.nextLine();
+                def.add(temp);
+                dictionary.put(edit,def);
+            }
+        } 
     }
     
 //    func6
@@ -246,15 +288,14 @@ public class SlangDictionary {
     }
     
 //     func8
-    public void RamdomSlangWord()
+    public void RandomSlangWord()
     {
-//        Random generator = new Random();
-//        Object[] values = dictionary.values().toArray();
-//        Object randomValue = values[generator.nextInt(values.length)];
-//        System.out.println(randomValue);
-        Object[] crunchifyKeys = dictionary.keySet().toArray();
-        Object key = crunchifyKeys[new Random().nextInt(crunchifyKeys.length)];
-        System.out.println("************ Random Value ************ \n" + key + " :: " + dictionary.get(key));
+        ArrayList<String> dictionaryKey = new ArrayList<>(dictionary.keySet()); 
+        int rdindex = new Random().nextInt(dictionaryKey.size());
+        String slangWord = dictionaryKey.get(rdindex);
+        ArrayList<String> definitions = dictionary.get(slangWord);
+        System.out.println("****** On this day slang word ******");
+        System.out.println("\t" + slangWord + " : " + String.join(", ", definitions));
     }
     
 //    func9

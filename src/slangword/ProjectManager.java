@@ -15,7 +15,15 @@ public class ProjectManager {
     public void Menu()
     {
         Scanner scanner = new Scanner(System.in);
+        SlangDictionary sld = new SlangDictionary();
+        sld.GetData();
+        
+        
+        
+        
         char y = 'y';
+        
+        
         while(y == 'y')
         {
             System.out.println("\n\n\n=============================================");
@@ -34,8 +42,7 @@ public class ProjectManager {
             
             System.out.print("\n\nPlease enter the function you wanna choice: ");
             Integer sel = scanner.nextInt();
-            SlangDictionary sld = new SlangDictionary();
-            sld.GetData();
+            
             
             switch(sel)
             {
@@ -61,7 +68,7 @@ public class ProjectManager {
                     sld.ResetOriginSlangWord();
                     break;
                 case 8:
-                    sld.RamdomSlangWord();
+                    sld.RandomSlangWord();
                     break;
                 case 9:
                     sld.FunnyQuizSlangWord();
