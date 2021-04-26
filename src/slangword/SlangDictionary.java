@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map.Entry;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -28,7 +29,7 @@ public class SlangDictionary {
     String historyPath = "E:\\Nam4\\HK2\\LTUD - Java\\P1\\SlangWord\\history.txt";
     public static HashMap<String, ArrayList<String>> dictionary = new HashMap<String, ArrayList<String>>();
     
-//    func3
+    
     public void WriteToHistory(String keyword)
     {
         try {
@@ -67,7 +68,6 @@ public class SlangDictionary {
                 }
                 line = br.readLine();
             }
-            System.out.println(dictionary.get("#1"));
             fin.close();
             bin.close();
             
@@ -84,11 +84,20 @@ public class SlangDictionary {
         System.out.print("Search definition: ");
         Scanner scanner = new Scanner(System.in);
         String s = scanner.nextLine();
-        WriteToHistory(s);
         s = s.toUpperCase();
-        ArrayList<String> meaning = dictionary.get(s);
-        for (int i = 0; i < meaning.size(); i++) {
+        WriteToHistory(s);
+        if (dictionary.containsKey(s)) 
+        {
+            ArrayList<String> meaning = dictionary.get(s);
+            for (int i = 0; i < meaning.size(); i++) 
+            {
             System.out.println(meaning.get(i));
+            }  
+        }
+        else
+        {
+            System.out.println("This slang word does not exist");
+
         }
     }
     
@@ -104,6 +113,34 @@ public class SlangDictionary {
             }
         }
     }
+    
+//    func 3
+    
+    public void ShowHistory()
+    {
+        try {
+            File f = new File(this.historyPath);
+            FileInputStream fin = new FileInputStream(f);
+            BufferedInputStream bin = new BufferedInputStream(fin);
+ 
+            BufferedReader br = new BufferedReader(new InputStreamReader(bin, StandardCharsets.UTF_8));
+            String line = br.readLine();
+            
+            while (line != null)
+            {
+                System.out.println(line);
+                line = br.readLine();
+            }
+            fin.close();
+            bin.close();
+            
+        }
+        catch(Exception ex)
+        {
+            System.err.println(ex.getMessage());
+        }
+    }
+    
 //    func4
     public void AddNewSlangWord()
     {
@@ -115,7 +152,7 @@ public class SlangDictionary {
         String newdef = scanner.nextLine();
         ArrayList<String> meaning = new ArrayList<String>();
         meaning.add(newdef);
-        if (dictionary.containsKey(newsl)) {
+        if (dictionary.get(newsl) != null) {
             System.out.println("Overwrite it: (Y/N) ");
             String confirm = scanner.nextLine();
             if (confirm.equals("y") ||  confirm.equals("Y"))
@@ -129,9 +166,7 @@ public class SlangDictionary {
                 for(String i:arr)
                 {
                     meaning.add(i);
-                    System.out.println(i);
                 }
-                dictionary.put(newsl, meaning);
                 System.out.println("Dup success");
             }
         }
@@ -148,7 +183,7 @@ public class SlangDictionary {
         System.out.println("Enter slangword you want to edit: ");
         Scanner scanner = new Scanner(System.in);
         String sledit = scanner.nextLine();
-        if (!dictionary.containsKey(sledit)) {
+        if (dictionary.get(sledit) != null) {
             System.out.println("Not exist");
         }
         else
@@ -160,24 +195,77 @@ public class SlangDictionary {
 //    func6
     public void DeleteSlangWord()
     {
-        System.out.println("Enter slang word you want to delete: ");
+        System.out.print("Enter slang word you want to delete: ");
         Scanner scanner = new Scanner(System.in);
         String del = scanner.nextLine();
-        if (dictionary.containsKey(del)) {
+        if (dictionary.get(del) != null) {
             System.out.println("Delete it? (Y/N) ");
             String confirm = scanner.nextLine();
             if (confirm.equals("y") ||  confirm.equals("Y"))
             {
                 dictionary.remove(del);
+                System.out.println("Delete success");
             }
+        }
+        else
+        {
+            System.out.println("This slang word does not exist");
         }
     }
     
 //    func7
     public void ResetOriginSlangWord()
     {
+        try 
+        {
+            File f = new File(this.filePath);
+            FileInputStream fin = new FileInputStream(f);
+            BufferedInputStream bin = new BufferedInputStream(fin);
+ 
+            BufferedReader br = new BufferedReader(new InputStreamReader(bin, StandardCharsets.UTF_8));
+            String line = br.readLine();
+            
+            while (line != null)
+            {
+                if(line.contains("`"))
+                {
+                    String [] str = line.split("`");
+                    String [] mean = str[1].trim().split("\\s*\\|\\s*");
+                    dictionary.put(str[0], new ArrayList<String>(Arrays.asList(mean)));
+                }
+                line = br.readLine();
+            }
+            fin.close();
+            bin.close();
+        } 
+        catch (Exception ex) 
+        {
+            System.err.println(ex.getMessage());
+        }
+        System.out.println("Already reset");
+    }
+    
+//     func8
+    public void RamdomSlangWord()
+    {
+//        Random generator = new Random();
+//        Object[] values = dictionary.values().toArray();
+//        Object randomValue = values[generator.nextInt(values.length)];
+//        System.out.println(randomValue);
+        Object[] crunchifyKeys = dictionary.keySet().toArray();
+        Object key = crunchifyKeys[new Random().nextInt(crunchifyKeys.length)];
+        System.out.println("************ Random Value ************ \n" + key + " :: " + dictionary.get(key));
+    }
+    
+//    func9
+    public void FunnyQuizSlangWord()
+    {
         
     }
     
+//    func10
+    public void FunnyQuizDefinition()
+    {
         
+    }
 }

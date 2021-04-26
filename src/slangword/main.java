@@ -18,11 +18,8 @@ public class main {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        SlangDictionary sld = new SlangDictionary();
-        sld.GetData();
-        sld.SearchBySlangWords();
-//        sld.SearchByDefinitions();
-//        sld.AddNewSlangWord();
+        ProjectManager pm = new ProjectManager();
+        pm.Menu();
     }
     
 }
