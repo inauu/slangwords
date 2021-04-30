@@ -5,6 +5,7 @@
  */
 package slangword;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -12,14 +13,10 @@ import java.util.Scanner;
  * @author inau
  */
 public class ProjectManager {
-    public void Menu()
+    public void Menu(SlangDictionary sld) throws IOException
     {
         Scanner scanner = new Scanner(System.in);
-        SlangDictionary sld = new SlangDictionary();
         sld.GetData();
-        
-        
-        
         
         char y = 'y';
         
@@ -39,11 +36,11 @@ public class ProjectManager {
             System.out.print("\n8.Ramdom a slang word");
             System.out.print("\n9.Funny quiz with slang word");
             System.out.print("\n10.Funny quiz with definition");
+            System.out.print("\n0.Exit");
             
             System.out.print("\n\nPlease enter the function you wanna choice: ");
             Integer sel = scanner.nextInt();
-            
-            
+            scanner.nextLine();
             switch(sel)
             {
                 case 1:
@@ -68,7 +65,9 @@ public class ProjectManager {
                     sld.ResetOriginSlangWord();
                     break;
                 case 8:
-                    sld.RandomSlangWord();
+                    String random = sld.RandomSlangWord();
+                    System.out.println("****** On this day slang word ******");
+                    System.out.println("\t" + random + " : " + String.join(", ", sld.GetDefinition(random))); 
                     break;
                 case 9:
                     sld.FunnyQuizSlangWord();
@@ -77,13 +76,26 @@ public class ProjectManager {
                     sld.FunnyQuizDefinition();
                     break;
                 case 0:
+                    break;
                 default:
                     System.out.println("Exit");
-                    System.exit(1);
+                    System.exit(0);
                     break;
             }
-            System.out.print("\n\nTo continue please choose 'y' or choose any key to exit: ");
-            y = scanner.next().charAt(0);
+            if(sel == 0 ){
+                break;
+            }
+                System.out.print("\n\nTo continue please choose 'y' or choose any key to exit: ");
+               y = scanner.next().charAt(0);
+           
+        }
+        
+        System.out.println("Do you want to save current dictionary?(Y/N): ");
+        String saveDictionary = new Scanner(System.in).nextLine().toUpperCase();
+        
+        if(saveDictionary.equals("Y")){
+            sld.SaveCurrentDictionary();
+            System.out.println("Saved");
         }
     }
 }
