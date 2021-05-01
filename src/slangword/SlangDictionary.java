@@ -94,11 +94,12 @@ public class SlangDictionary {
 //    func1
     public void SearchBySlangWords()
     {
-        System.out.print("Search definition: ");
+        System.out.print("\nSearch definition: ");
         Scanner scanner = new Scanner(System.in);
         String s = scanner.nextLine();
         s = s.toUpperCase();
         WriteToHistory(s);
+        long startTime = System.currentTimeMillis();
         if (dictionary.get(s) != null) 
         {
             ArrayList<String> meaning = dictionary.get(s);
@@ -111,13 +112,15 @@ public class SlangDictionary {
         {
             System.out.println("This slang word does not exist");
         }
+        long endTime = System.currentTimeMillis();
+        System.out.println("\nMethod took: " + (endTime - startTime) + "ms");
     }
     
 
 //    func2
     public void SearchByDefinitions()
     {
-        System.out.print("Search slang word: ");
+        System.out.print("\nSearch slang word: ");
         Scanner scanner = new Scanner(System.in);
         String def = scanner.nextLine();
         int numOfDef = 0;
@@ -129,8 +132,7 @@ public class SlangDictionary {
                 {
                     System.out.println(slword.getKey());
                     numOfDef ++;
-                }
-                   
+                }    
             }
         }
         
@@ -304,9 +306,10 @@ public class SlangDictionary {
         {
             System.err.println(ex.getMessage());
         }
-        System.out.println("Already reset");
+        System.out.println("Has been reset");
     }
     
+//    
     public ArrayList<String> GetDefinition(String key)
     {
         return dictionary.get(key);
@@ -321,36 +324,30 @@ public class SlangDictionary {
         ArrayList<String> definitions = dictionary.get(slangWord);
         return slangWord;
     }
-        
-    
+          
 //    func9
     public void FunnyQuizSlangWord()
     {      
-        //tao cau hoi
         String ans1 = RandomSlangWord();
         
-        //tao cau tra loi
         int ansNumber = 4;
         ArrayList<String> ans = new ArrayList<>();
         
-        //dap an
         String result = String.join(", ",  GetDefinition(ans1));
         ans.add(result);
         
-        // tao them 3 cau tra loi
         while (ans.size() < ansNumber) {
             String keyAnswer = RandomSlangWord();
             String definition = String.join(", ",  GetDefinition(keyAnswer));
             
-            // kiem tra co trung voi cau tra loi da co 
             if(ans.contains(definition)){
                 continue;
             }
             ans.add(definition);
         }
-        // xao mang
+        
         Collections.shuffle(ans);
-        //in ra man hinh
+        
         String a1 = "A." + ans.get(0);
         String a2 = "B." + ans.get(1);
         String a3 = "C." + ans.get(2);
@@ -363,13 +360,12 @@ public class SlangDictionary {
         System.out.println(a2);
         System.out.println(a3);
         System.out.println(a4);
-        //lay cau tra loi
+
         System.out.print("Your answer is: ");
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.nextLine();
         answer = answer.toUpperCase();
         
-        //kiem tra cau tra loi
         if (answer.equals("A") || answer.equals("B") || answer.equals("C") || answer.equals("D")) {
             int index = 0;
             if (answer.equals("B")) {
@@ -395,32 +391,26 @@ public class SlangDictionary {
 //    func10
     public void FunnyQuizDefinition()
     {
-        //tao cau hoi
         String ans1 = RandomSlangWord();
         String Question = String.join(", ",  GetDefinition(ans1));
         
-        //tao cau tra loi
         int ansNumber = 4;
         ArrayList<String> ans = new ArrayList<>();
         
-        //dap an
         String result = ans1;
         ans.add(result);
         
-        // tao them 3 cau tra loi
         while (ans.size() < ansNumber) {
             String keyAnswer = RandomSlangWord();
             
-            // kiem tra co trung voi cau tra loi da co 
             if(ans.contains(keyAnswer)){
                 continue;
             }
             ans.add(keyAnswer);
         }
-        // xao mang
+
         Collections.shuffle(ans);
         
-        //in ra man hinh
         String a1 = "A." + ans.get(0);
         String a2 = "B." + ans.get(1);
         String a3 = "C." + ans.get(2);
@@ -433,13 +423,12 @@ public class SlangDictionary {
         System.out.println(a2);
         System.out.println(a3);
         System.out.println(a4);
-        //lay cau tra loi
+        
         System.out.print("Your answer is: ");
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.nextLine();
         answer = answer.toUpperCase();
         
-        //kiem tra cau tra loi
         if (answer.equals("A") || answer.equals("B") || answer.equals("C") || answer.equals("D")) {
             
             int index = 0;
@@ -462,34 +451,26 @@ public class SlangDictionary {
         System.out.println("The answer is: " + result);        
     }        
     
-    public void SaveCurrentDictionary() throws IOException{
-//        key: defintions 
-
-        // tao file this.data
+    public void SaveCurrentDictionary() throws IOException
+    {
         try {
-            
-            //empty file
-            
             File f = new File(this.dataPath);
             new PrintWriter(f).close();
 
             FileOutputStream fos = new FileOutputStream(f,true);
             BufferedOutputStream bos = new BufferedOutputStream(fos);
-        // xoa het danh sach trong file data
-            
-        // bat dau ghi lai
-        for (Entry<String, ArrayList<String>> slWord : dictionary.entrySet()) {
+
+        for (Entry<String, ArrayList<String>> slWord : dictionary.entrySet()) 
+        {
             String line = slWord.getKey() +"`" + String.join("|", slWord.getValue());
             bos.write((line + System.lineSeparator()).getBytes());
         }
-         
-        bos.close();
+        
+            bos.close();
         }
         catch(Exception ex)
         {
             System.out.println(ex.getMessage());
         }
-        
-    
     }
 }

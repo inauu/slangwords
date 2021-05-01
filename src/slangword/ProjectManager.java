@@ -19,8 +19,7 @@ public class ProjectManager {
         sld.GetData();
         
         char y = 'y';
-        
-        
+         
         while(y == 'y')
         {
             System.out.println("\n\n\n=============================================");
@@ -66,7 +65,7 @@ public class ProjectManager {
                     break;
                 case 8:
                     String random = sld.RandomSlangWord();
-                    System.out.println("****** On this day slang word ******");
+                    System.out.println("\n****** On this day slang word ******");
                     System.out.println("\t" + random + " : " + String.join(", ", sld.GetDefinition(random))); 
                     break;
                 case 9:
@@ -86,11 +85,10 @@ public class ProjectManager {
                 break;
             }
                 System.out.print("\n\nTo continue please choose 'y' or choose any key to exit: ");
-               y = scanner.next().charAt(0);
-           
+                y = scanner.next().charAt(0); 
         }
         
-        System.out.println("Do you want to save current dictionary?(Y/N): ");
+        System.out.print("Do you want to save current dictionary?(Y/N): ");
         String saveDictionary = new Scanner(System.in).nextLine().toUpperCase();
         
         if(saveDictionary.equals("Y")){
