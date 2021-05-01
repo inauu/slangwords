@@ -43,7 +43,6 @@ public class SlangDictionary {
         this.backupPath = backupPath;
     }
     
-
     public void WriteToHistory(String keyword)
     {
         try {
@@ -139,9 +138,8 @@ public class SlangDictionary {
         System.out.println("\nMethod took: " + (endTime - startTime) + "ms");
         
         if (numOfDef == 0) {
-            System.out.println("ko co ");
+            System.out.println("There is not any slang word contains this definition");
         }
-        
     }
     
 //    func 3
@@ -161,8 +159,7 @@ public class SlangDictionary {
                 line = br.readLine();
             }
             fin.close();
-            bin.close();
-            
+            bin.close(); 
         }
         catch(Exception ex)
         {
@@ -178,7 +175,7 @@ public class SlangDictionary {
         String newsl = scanner.nextLine();
         newsl = newsl.toUpperCase();
         ArrayList<String> meaning = new ArrayList<String>();
-        System.out.print("How many definitions of it: ");
+        System.out.print("How many definitions of this: ");
         int amount = scanner.nextInt();
         scanner.nextLine();
         for (int i = 1; i <= amount; i++) 
@@ -188,7 +185,7 @@ public class SlangDictionary {
             meaning.add(newdef);
         }
         if (dictionary.get(newsl) != null) {
-            System.out.println("\nOverwrite it? (Y/N) ");
+            System.out.println("\nOverwrite this? (Y/N) ");
             String confirm = scanner.nextLine();
             if (confirm.equals("y") ||  confirm.equals("Y"))
             {
@@ -225,8 +222,8 @@ public class SlangDictionary {
         {
             ArrayList<String> def = dictionary.get(edit);
             
-            System.out.println("1. Add Definition ");
-            System.out.println("2. Delete Definition ");
+            System.out.println("1.Add Definition ");
+            System.out.println("2.Delete Definition ");
             System.out.print("\nWhat do you want with this slang word: ");
             int choice = scanner.nextInt();
 
@@ -244,10 +241,10 @@ public class SlangDictionary {
                 }
                 if (def.size()==1) 
                 {
-                    System.out.println("You can't delete this ");
+                    System.out.println("You can not delete this");
                     return;
                 }
-                System.out.print("Number of item you want to remove: ");
+                System.out.print("Which the item do you want to remove: ");
                 int number = scanner.nextInt();
                 def.remove(number - 1);
                 dictionary.put(edit,def);
@@ -265,7 +262,8 @@ public class SlangDictionary {
         if (dictionary.get(del) != null) {
             System.out.println("Delete it? (Y/N) ");
             String confirm = scanner.nextLine();
-            if (confirm.equals("y") ||  confirm.equals("Y"))
+            confirm = confirm.toUpperCase();
+            if (confirm.equals("Y"))
             {
                 dictionary.remove(del);
                 System.out.println("Delete success");
