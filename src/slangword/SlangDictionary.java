@@ -97,8 +97,10 @@ public class SlangDictionary {
         System.out.print("\nSearch definition: ");
         Scanner scanner = new Scanner(System.in);
         String s = scanner.nextLine();
+        System.out.println("");
         s = s.toUpperCase();
         WriteToHistory(s);
+        
         long startTime = System.currentTimeMillis();
         if (dictionary.get(s) != null) 
         {
@@ -116,6 +118,17 @@ public class SlangDictionary {
         System.out.println("\nMethod took: " + (endTime - startTime) + "ms");
     }
     
+//
+    public boolean IsContainKeyWord(ArrayList<String> slword, String def)
+    {
+        for (int i = 0; i < slword.size(); i++) {
+            if(slword.get(i).toUpperCase().contains(def.toUpperCase()))
+                {
+                    return true;
+                }  
+        }
+        return false;
+    }
 
 //    func2
     public void SearchByDefinitions()
@@ -123,23 +136,27 @@ public class SlangDictionary {
         System.out.print("\nSearch slang word: ");
         Scanner scanner = new Scanner(System.in);
         String def = scanner.nextLine();
-        int numOfDef = 0;
+        System.out.println("");
+        ArrayList<String> arr = new ArrayList<>();
 
         long startTime = System.currentTimeMillis();
         for (Entry<String, ArrayList<String>> slword : dictionary.entrySet()) {
             for (String string : slword.getValue()) { //
-                if(string.toUpperCase().contains(def.toUpperCase()))
+                if(IsContainKeyWord(slword.getValue(), def))
                 {
-                    System.out.println(slword.getKey());
-                    numOfDef ++;
+                    arr.add(slword.getKey());
                 }    
             }
         }
-        
         long endTime = System.currentTimeMillis();
+        
+        for (int i = 0; i < arr.size(); i++) {
+            System.out.println(arr.get(i));
+        }
+        
         System.out.println("\nMethod took: " + (endTime - startTime) + "ms");
         
-        if (numOfDef == 0) {
+        if (arr.size() == 0) {
             System.out.println("There is not any slang word contains this definition");
         }
     }
@@ -456,7 +473,6 @@ public class SlangDictionary {
         try {
             File f = new File(this.dataPath);
             new PrintWriter(f).close();
-
             FileOutputStream fos = new FileOutputStream(f,true);
             BufferedOutputStream bos = new BufferedOutputStream(fos);
 
